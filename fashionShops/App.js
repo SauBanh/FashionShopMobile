@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Alert } from "react-native";
+import { Alert, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -38,21 +38,6 @@ function ActionFashion() {
                 drawerActiveTintColor: "white",
                 drawerInactiveTintColor: GlobalStyles.color.primaryColor,
                 headerTintColor: GlobalStyles.color.primaryColor,
-                // headerRight: ({ tintColor }) => (
-                //     <Ionicons
-                //         name="notifications"
-                //         size={25}
-                //         color={tintColor}
-                //         style={{ marginVertical: 15, marginHorizontal: 15 }}
-                //         onPress={() =>
-                //             Alert.alert(
-                //                 "Thông báo",
-                //                 "Tính năng này chưa được phát triển"
-                //             )
-                //         }
-                //     />
-                // ),
-
                 headerRight: ({ tintColor }) => (
                     <Ionicons
                         name="exit-outline"
@@ -91,9 +76,6 @@ function FashionOverview() {
     return (
         <BottomTabs.Navigator
             screenOptions={{
-                // headerStyle: {
-                //     backgroundColor: GlobalStyles.color.primaryColor,
-                // },
                 headerTintColor: GlobalStyles.color.primaryColor,
                 tabBarActiveTintColor: GlobalStyles.color.primaryColor,
                 headerRight: ({ tintColor }) => (
@@ -122,7 +104,6 @@ function FashionOverview() {
                     ),
                 }}
             />
-            {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
             <BottomTabs.Screen
                 name="Favourite"
                 component={FavouriteScreen}
@@ -161,7 +142,19 @@ function FashionOverview() {
                     headerShown: false,
                     title: "Profile",
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="person" color={color} size={size} />
+                        // <Ionicons name="person" color={color} size={size} />
+                        <Image
+                            source={{
+                                uri: "https://i.imgur.com/gVyFQAe.jpg",
+                            }}
+                            style={{
+                                height: size,
+                                width: size,
+                                borderRadius: size,
+                                borderWidth: 1,
+                                borderColor: color,
+                            }}
+                        />
                     ),
                 }}
             />
