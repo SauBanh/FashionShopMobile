@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { View, Text, StyleSheet, Image, Pressable, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -5,7 +6,10 @@ import { GlobalStyles } from "../../constants/styles";
 import { currencyFormat } from "../../util/currencyFormat";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 
-const FashionItem = ({ id, title, price, imageUrl, description, discount }) => {
+import { FavoritesContext } from "../../store/context/favorites-context";
+
+const FashionItem = ({ id, title, price, imageUrl, discount, width }) => {
+    const favoriteFashionCtx = useContext(FavoritesContext);
     const navigation = useNavigation();
     const isTextTooLong = title.length > 20;
     const renderText = isTextTooLong ? `${title.slice(0, 17)}...` : title;
@@ -14,6 +18,16 @@ const FashionItem = ({ id, title, price, imageUrl, description, discount }) => {
             fashionId: id,
         });
     }
+    const fashionIsFavorite = favoriteFashionCtx.ids.includes(id);
+
+    function changeFavoriteStatusHandler() {
+        if (fashionIsFavorite) {
+            favoriteFashionCtx.removeFavorite(id);
+        } else {
+            favoriteFashionCtx.addFavorite(id);
+        }
+    }
+
     return (
         <Pressable
             onPress={selectFashionItemHandler}
@@ -47,9 +61,21 @@ const FashionItem = ({ id, title, price, imageUrl, description, discount }) => {
             >
                 <Feather name="shopping-bag" size={24} color="white" />
             </Pressable>
-            <View style={styles.favoriteContainer}>
-                <MaterialIcons name="favorite" size={18} color="white" />
-            </View>
+            <Pressable
+                style={styles.favoriteContainer}
+                onPress={changeFavoriteStatusHandler}
+            >
+                <MaterialIcons
+                    name="favorite"
+                    size={18}
+                    color={
+                        fashionIsFavorite
+                            ? GlobalStyles.color.errorColor
+                            : GlobalStyles.color.primaryColor
+                    }
+                />
+            </Pressable>
+            {/* {iconFavorite} */}
         </Pressable>
     );
 };
@@ -128,6 +154,5 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 2,
         borderColor: GlobalStyles.color.primaryColor,
-        backgroundColor: GlobalStyles.color.primaryColor,
     },
 });

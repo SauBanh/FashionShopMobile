@@ -7,6 +7,8 @@ export const GlobalStyles = {
         titleColor: "#090F24",
         subTitleColor: "#848689",
         errorColor: "#FF2121",
-        primaryColor: "#8225B6",
+        // primaryColor: "#8225B6",
+        // primaryColor: "#36A59B",
+        primaryColor: "#F76B1C",
     },
 };

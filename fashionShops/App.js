@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 
+import FavoritesContextProvider from "./store/context/favorites-context";
+
 import { GlobalStyles } from "./constants/styles";
 
 import HomeScreen from "./screens/HomeScreen";
@@ -171,63 +173,65 @@ export default function App() {
     return (
         <>
             <StatusBar translucent style="dark" />
-            <NavigationContainer>
-                <Stack.Navigator
-                    screenOptions={{
-                        headerTintColor: GlobalStyles.color.primaryColor,
-                    }}
-                >
-                    <Stack.Screen
-                        name="Login"
-                        component={LoginScreen}
-                        options={{
-                            headerShown: false,
+            <FavoritesContextProvider>
+                <NavigationContainer>
+                    <Stack.Navigator
+                        screenOptions={{
+                            headerTintColor: GlobalStyles.color.primaryColor,
                         }}
-                    />
-                    <Stack.Screen
-                        name="ForgotPassword"
-                        component={ForgotPasswordScreen}
-                        options={{
-                            headerTitle: "Forgot Password",
-                        }}
-                    />
-                    <Stack.Screen
-                        name="VerifyCode"
-                        component={VerifyCodeScreen}
-                        options={{
-                            headerTitle: "Verify Code",
-                        }}
-                    />
-                    <Stack.Screen
-                        name="SetNewPassword"
-                        component={SetNewPasswordScreen}
-                        options={{
-                            headerTitle: "Set New Password",
-                        }}
-                    />
-                    <Stack.Screen
-                        name="Singup"
-                        component={SingupScreen}
-                        options={{
-                            headerShown: false,
-                        }}
-                    />
-                    <Stack.Screen
-                        name="FashionOverview"
-                        component={FashionOverview}
-                        options={{
-                            headerShown: false,
-                        }}
-                    />
-                    <Stack.Screen
-                        name="FashionDetail"
-                        component={FashionDetailScreen}
-                        options={{
-                            headerShown: false,
-                        }}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
+                    >
+                        <Stack.Screen
+                            name="Login"
+                            component={LoginScreen}
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                        <Stack.Screen
+                            name="ForgotPassword"
+                            component={ForgotPasswordScreen}
+                            options={{
+                                headerTitle: "Forgot Password",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="VerifyCode"
+                            component={VerifyCodeScreen}
+                            options={{
+                                headerTitle: "Verify Code",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="SetNewPassword"
+                            component={SetNewPasswordScreen}
+                            options={{
+                                headerTitle: "Set New Password",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="Singup"
+                            component={SingupScreen}
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                        <Stack.Screen
+                            name="FashionOverview"
+                            component={FashionOverview}
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                        <Stack.Screen
+                            name="FashionDetail"
+                            component={FashionDetailScreen}
+                            options={{
+                                headerShown: false,
+                            }}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </FavoritesContextProvider>
         </>
     );
 }

@@ -89,12 +89,12 @@ export const FASHION = [
         "Mô tả váy nữ trắng đen ...",
         15
     ),
-    new Fashion(
-        "f12",
-        "Bộ quần áo thun nam ngắn",
-        380000,
-        "https://i.imgur.com/XuD2aJd.jpg",
-        "Mô tả bộ quần áo thun nam ngắn ...",
-        10
-    ),
+    // new Fashion(
+    //     "f12",
+    //     "Bộ quần áo thun nam ngắn",
+    //     380000,
+    //     "https://i.imgur.com/XuD2aJd.jpg",
+    //     "Mô tả bộ quần áo thun nam ngắn ...",
+    //     10
+    // ),
 ];

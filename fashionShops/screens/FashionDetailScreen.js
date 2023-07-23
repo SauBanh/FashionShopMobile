@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
     View,
     Text,
@@ -18,7 +18,7 @@ import {
 import { FASHION } from "../data/fashion-data";
 import { GlobalStyles } from "../constants/styles";
 import { currencyFormat } from "../util/currencyFormat";
-import { color } from "react-native-reanimated";
+import { FavoritesContext } from "../store/context/favorites-context";
 
 const itemsColor = [
     { key: "Green" },
@@ -44,11 +44,20 @@ const FashionDetailScreen = ({ route, navigation }) => {
     const [size, setSize] = useState("");
     const fashionId = route.params.fashionId;
     const selectedFashion = FASHION.find((fashion) => fashion.id === fashionId);
+    const favoriteFashionCtx = useContext(FavoritesContext);
+    const fashionIsFavorite = favoriteFashionCtx.ids.includes(fashionId);
     // const renderItemColor = (itemsColor) => (
     //     <Pressable style={styles.itemsColor}>
     //         <Text style={styles.itemText}>{itemsColor.item.key}</Text>
     //     </Pressable>
     // );
+    function changeFavoriteStatusHandler() {
+        if (fashionIsFavorite) {
+            favoriteFashionCtx.removeFavorite(fashionId);
+        } else {
+            favoriteFashionCtx.addFavorite(fashionId);
+        }
+    }
     const renderItemColor = (itemsColor) => {
         let isActive = false;
         if (color === itemsColor.item.key) {
@@ -158,11 +167,18 @@ const FashionDetailScreen = ({ route, navigation }) => {
                                 {currencyFormat(selectedFashion.price)}
                             </Text>
                         </View>
-                        <Pressable style={styles.favoriteContainer}>
+                        <Pressable
+                            style={styles.favoriteContainer}
+                            onPress={changeFavoriteStatusHandler}
+                        >
                             <MaterialIcons
-                                name="favorite-border"
+                                name={
+                                    fashionIsFavorite
+                                        ? "favorite"
+                                        : "favorite-border"
+                                }
                                 size={24}
-                                color={GlobalStyles.color.primaryColor}
+                                color={GlobalStyles.color.errorColor}
                             />
                         </Pressable>
                     </View>
