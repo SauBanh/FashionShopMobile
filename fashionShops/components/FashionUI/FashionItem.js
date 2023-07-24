@@ -7,9 +7,11 @@ import { currencyFormat } from "../../util/currencyFormat";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 import { FavoritesContext } from "../../store/context/favorites-context";
+import { CartContext } from "../../store/context/carts-context";
 
-const FashionItem = ({ id, title, price, imageUrl, discount, width }) => {
+const FashionItem = ({ id, title, price, imageUrl, discount }) => {
     const favoriteFashionCtx = useContext(FavoritesContext);
+    const cartFashionCtx = useContext(CartContext);
     const navigation = useNavigation();
     const isTextTooLong = title.length > 20;
     const renderText = isTextTooLong ? `${title.slice(0, 17)}...` : title;
@@ -26,6 +28,34 @@ const FashionItem = ({ id, title, price, imageUrl, discount, width }) => {
         } else {
             favoriteFashionCtx.addFavorite(id);
         }
+    }
+
+    function addCardHandler() {
+        cartFashionCtx.addItemCart({
+            id: id,
+            title: title,
+            price: price,
+            imageUrl: imageUrl,
+            discount: discount,
+        });
+    }
+
+    function showAlertAddCartHandler() {
+        Alert.alert(
+            "Thông báo",
+            "Bạn có muốn thực hiện hành động này không?",
+            [
+                {
+                    text: "Hủy",
+                    style: "cancel",
+                },
+                {
+                    text: "Đồng ý",
+                    onPress: addCardHandler,
+                },
+            ],
+            { cancelable: false }
+        );
     }
 
     return (
@@ -52,12 +82,7 @@ const FashionItem = ({ id, title, price, imageUrl, discount, width }) => {
             <Pressable
                 // style={{ backgroundColor: "#fff" }}
                 style={styles.cartContainer}
-                onPress={() =>
-                    Alert.alert(
-                        "Thêm vào giỏ hàng",
-                        "Đã thêm vào giỏ hàng thành công"
-                    )
-                }
+                onPress={showAlertAddCartHandler}
             >
                 <Feather name="shopping-bag" size={24} color="white" />
             </Pressable>

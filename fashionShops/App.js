@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Alert, Image } from "react-native";
+import { Alert, Image, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -24,6 +25,8 @@ import SetNewPasswordScreen from "./screens/SetNewPasswordScreen";
 import VerifyCodeScreen from "./screens/VerifyCodeScreen";
 
 import ListProductFashionScreen from "./screens/ListProductFashionScreen";
+
+import { CartContext } from "./store/context/carts-context";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +77,32 @@ function ActionFashion() {
 }
 
 function FashionOverview() {
+    const cartFashionCtx = useContext(CartContext);
+    let numItemsCart;
+    if (cartFashionCtx.totalQuantity !== 0) {
+        numItemsCart = (
+            <View
+                style={{
+                    position: "absolute",
+                    top: -8,
+                    right: -8,
+                    backgroundColor: GlobalStyles.color.errorColor,
+                    // padding: 5,
+                    borderRadius: 20,
+                    width: 20,
+                    height: 20,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <Text
+                    style={{ fontSize: 8, color: "white", fontWeight: "bold" }}
+                >
+                    {cartFashionCtx.totalQuantity}
+                </Text>
+            </View>
+        );
+    }
     return (
         <BottomTabs.Navigator
             screenOptions={{
@@ -132,7 +161,10 @@ function FashionOverview() {
                 component={CartScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="cart" color={color} size={size} />
+                        <View style={{ position: "relative" }}>
+                            <Ionicons name="cart" color={color} size={size} />
+                            {numItemsCart}
+                        </View>
                     ),
                 }}
             />

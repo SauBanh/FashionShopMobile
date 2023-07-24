@@ -11,7 +11,7 @@ function renderFASHIONItem(itemData) {
         title: item.title,
         price: item.price,
         imageUrl: item.imageUrl,
-        description: item.description,
+        // description: item.description,
         discount: item.discount,
     };
 

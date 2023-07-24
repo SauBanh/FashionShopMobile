@@ -1,36 +1,40 @@
 import { useContext } from "react";
-import { View, Text, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { CartContext } from "../store/context/carts-context";
+import CartList from "../components/CartUI/CartList";
+import { GlobalStyles } from "../constants/styles";
+import Title from "../components/UI/Title";
 
 const CartScreen = () => {
     const cartCtx = useContext(CartContext);
-    function addCardHandler() {
-        console.log("addCardHandler");
-        cartCtx.addItemCart({
-            id: "f1",
-            title: "Áo thun nam tay ngắn",
-            price: 300000,
-            imageUrl: "https://i.imgur.com/tosuXfv.jpg",
-            discount: 10,
-        });
-    }
-    function deleteCardHandler() {
-        console.log("deleteCardHandler");
-        cartCtx.deleteItemCart("f1");
-    }
-    function test() {
-        console.log(cartCtx.cartItems);
+    if (cartCtx.cartItems.length === 0) {
+        return (
+            <View
+                style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                }}
+            >
+                <Title fontSize={30}>Cart is empty.</Title>
+            </View>
+        );
     }
     return (
-        <View
-            style={{ justifyContent: "center", flex: 1, alignItems: "center" }}
-        >
-            <Button onPress={test} title="Test" />
-            <Button onPress={addCardHandler} title="Add" />
-            <Button onPress={deleteCardHandler} title="Delete" />
+        <View style={styles.rootContainer}>
+            <CartList items={cartCtx.cartItems} />
         </View>
     );
 };
 
 export default CartScreen;
+
+const styles = StyleSheet.create({
+    rootContainer: {
+        backgroundColor: GlobalStyles.color.backgroundContentColor,
+        width: "100%",
+        // justifyContent: "center",
+        // alignItems: "center",
+    },
+});

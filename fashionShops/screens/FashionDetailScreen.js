@@ -7,6 +7,7 @@ import {
     FlatList,
     ScrollView,
     Pressable,
+    Alert,
 } from "react-native";
 import {
     FontAwesome,
@@ -19,6 +20,7 @@ import { FASHION } from "../data/fashion-data";
 import { GlobalStyles } from "../constants/styles";
 import { currencyFormat } from "../util/currencyFormat";
 import { FavoritesContext } from "../store/context/favorites-context";
+import { CartContext } from "../store/context/carts-context";
 
 const itemsColor = [
     { key: "Green" },
@@ -45,6 +47,7 @@ const FashionDetailScreen = ({ route, navigation }) => {
     const fashionId = route.params.fashionId;
     const selectedFashion = FASHION.find((fashion) => fashion.id === fashionId);
     const favoriteFashionCtx = useContext(FavoritesContext);
+    const cartFashionCtx = useContext(CartContext);
     const fashionIsFavorite = favoriteFashionCtx.ids.includes(fashionId);
     // const renderItemColor = (itemsColor) => (
     //     <Pressable style={styles.itemsColor}>
@@ -91,6 +94,34 @@ const FashionDetailScreen = ({ route, navigation }) => {
         );
     };
 
+    function addCardHandler() {
+        cartFashionCtx.addItemCart({
+            id: fashionId,
+            title: selectedFashion.title,
+            price: selectedFashion.price,
+            imageUrl: selectedFashion.imageUrl,
+            discount: selectedFashion.discount,
+        });
+    }
+
+    function showAlertAddCartHandler() {
+        Alert.alert(
+            "Thông báo",
+            "Bạn có muốn thực hiện hành động này không?",
+            [
+                {
+                    text: "Hủy",
+                    style: "cancel",
+                },
+                {
+                    text: "Đồng ý",
+                    onPress: addCardHandler,
+                },
+            ],
+            { cancelable: false }
+        );
+    }
+
     return (
         <ScrollView style={styles.rootContainer}>
             <View style={styles.imageContainer}>
@@ -98,7 +129,10 @@ const FashionDetailScreen = ({ route, navigation }) => {
                     style={styles.image}
                     source={{ uri: selectedFashion.imageUrl }}
                 />
-                <Pressable style={[styles.cartContainer, styles.iconStyle]}>
+                <Pressable
+                    onPress={showAlertAddCartHandler}
+                    style={[styles.cartContainer, styles.iconStyle]}
+                >
                     <Feather
                         name="shopping-bag"
                         size={24}
